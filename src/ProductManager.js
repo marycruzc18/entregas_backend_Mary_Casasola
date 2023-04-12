@@ -104,9 +104,21 @@ class ProductManager {
 
 }
 
-const pm = new ProductManager('./productos.json');
-pm.addProduct("Zarcillos","Zarcillos Estrella",2500,"sin foto",5330,100);
-pm.addProduct("Anillo","Anillo estilo princesa",2000,"sin foto",5233,20);
-pm.updateProduct(1,'stock',50)
-pm.deleteProduct(2);
+//const pm = new ProductManager('./productos.json');
+//pm.addProduct("Zarcillos","Zarcillos Estrella",2500,"sin foto",5330,100);
+//pm.addProduct("Anillo","Anillo estilo princesa",2000,"sin foto",5233,20);
+//pm.addProduct("Anillo","Anillo dorado",2000,"sin foto",5234,25);
+//pm.addProduct("Zarcillos","Zarcillo dorado",2600,"sin foto",5236,50);
+//pm.addProduct("Cinturón","Cinturón Negro",2800,"sin foto",5240,120);
+//pm.addProduct("Cinturón","Cinturón Blanco",2800,"sin foto",5241,70);
+//pm.addProduct("Cadena","Cadena dorada",2100,"sin foto",5250,75);
+//pm.addProduct("Cadena","Cadena trenzada",2100,"sin foto",5251,85);
+//pm.addProduct("Lentes","Lentes Negros",2400,"sin foto",5260,30);
+//pm.addProduct("Lentes","Lentes rosados",2450,"sin foto",5261,25);
 
+
+
+//pm.updateProduct(1,'stock',50)
+//pm.deleteProduct(2);
+
+exports.ProductManager = ProductManager

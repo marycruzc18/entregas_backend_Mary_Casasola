@@ -2,13 +2,17 @@
   "name": "entrega_backend1",
   "version": "1.0.0",
   "description": "",
-  "main": "entraga1.js",
+  "main": "ProductManager.js",
   "scripts": {
+    "dev":"nodemon src/app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "express": "^4.18.2"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.22"
   }
 }
