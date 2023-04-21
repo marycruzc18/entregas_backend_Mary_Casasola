@@ -121,4 +121,4 @@ class ProductManager {
 //pm.updateProduct(1,'stock',50)
 //pm.deleteProduct(2);
 
-exports.ProductManager = ProductManager
+
