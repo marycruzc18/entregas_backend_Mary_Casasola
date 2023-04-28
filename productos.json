@@ -1,0 +1,24 @@
+[
+  {
+    "title": "Prueba2",
+    "description": "Lentes rosados",
+    "price": 2450,
+    "thumbnail": "sin foto",
+    "code": 5261,
+    "stock": 25,
+    "status": "true",
+    "category": "lentes",
+    "id": 1
+  },
+  {
+    "title": "Pruebas",
+    "description": "Lentes rosados",
+    "price": 2450,
+    "thumbnail": "sin foto",
+    "code": 5261,
+    "stock": 25,
+    "status": "true",
+    "category": "lentes",
+    "id": 2
+  }
+]
