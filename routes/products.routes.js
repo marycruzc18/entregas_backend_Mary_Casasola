@@ -2,6 +2,7 @@ import  fs  from 'fs'
 import {Router} from 'express'
 
 
+
 const ArchivoCarritos = './carrito.json';
 
 
@@ -15,6 +16,25 @@ let carritos=[];
 
 
 
+
+
+
+router.get('/', async(req, res) => {
+  const datos = await fs.promises.readFile(ArchivoProductos,'utf-8' );
+  const products= JSON.parse(datos);
+ 
+  res.render('home', {products})
+ 
+});
+
+
+router.get('/realtimeproducts', async(req, res) => {
+  const datos = await fs.promises.readFile(ArchivoProductos,'utf-8' );
+  const products= JSON.parse(datos);
+ 
+  res.render('realTimeProducts', {products})
+ 
+});
 
 
 
