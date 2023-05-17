@@ -31,9 +31,7 @@
         socket.on('server_confirm', (msg) => {
         console.log('El servidor ha confirmado la conexión');
         });
-
-      
-  socket.on('product_added', (product) => {
+ socket.on('product_added', (product) => {
   console.log(`Nuevo producto recibido: ${JSON.stringify(product)}`);
   // Obtener la lista de productos y agregar el nuevo producto
   const productList = document.getElementById('product-list');
@@ -50,4 +48,3 @@
   
     </script>
 </body>
-

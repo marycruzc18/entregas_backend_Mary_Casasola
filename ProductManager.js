@@ -1,4 +1,5 @@
 import  fs  from 'fs'
+import productModel from './dao/models/products.model';
 
 class ProductManager {
 
@@ -14,8 +15,8 @@ class ProductManager {
 
    async getProducts(){
         try{
-          const datos = await fs.promises.readFile(this.path,'utf-8' );
-          const products= JSON.parse(datos);
+         // const datos = await fs.promises.readFile(this.path,'utf-8' );
+          const products= await productModel.find()
           console.log(products);
         }catch(error){
           console.log("error!!");

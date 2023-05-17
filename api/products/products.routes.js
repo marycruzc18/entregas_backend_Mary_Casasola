@@ -1,6 +1,9 @@
 import  fs  from 'fs'
 import {Router} from 'express'
 import { __dirname } from '../../utils.js';
+import productModel from '../../dao/models/products.model.js'
+
+
 
 
 const ArchivoCarritos = './carrito.json';
@@ -39,28 +42,30 @@ const router  = Router()
   });
   
   
-  
-  router.post('/api/products', (req, res) => {
-    const product = req.body;
-  product.id = productos.length + 1;
-  productos.push(product);
-  fs.writeFile(ArchivoProductos, JSON.stringify(productos), (err) => {
-    if (err) throw err;
-    res.send('Producto creado exitosamente');
-  });
-    io.emit('product_added', product);
+  let productIdCounter = 1;
+
+  router.post('/api/products', async (req, res) => {
     
+    try {
+      const product = req.body;
+      const newProduct = await productModel.create({
+        ...product,
+        id: productIdCounter++
+      });
+      res.status(201).send({ mensaje: 'Producto creado exitosamente' });
+    } catch (error) {
+      console.error(error);
+      res.status(500).send({ mensaje: 'Error al crear el producto' });
+    }
   });
-  
-  
   
   
   
   
   router.get('/api/products', async (req, res) => {
     try{
-        const datos = await fs.promises.readFile(ArchivoProductos,'utf-8' );
-        const products= JSON.parse(datos);
+      
+       const products = await productModel.find()
         const limit = parseInt(req.query.limit)
         if(limit){
             res.send(products.slice(0,limit))
@@ -76,69 +81,52 @@ const router  = Router()
       }
     
     });
+
+
     router.get('/api/products/:pid', async (req, res) => {
       try {
-          const products = await fs.promises.readFile(ArchivoProductos, 'utf-8');
-          const productsJson = await JSON.parse(products);
-          const product = productsJson.find(product => product.id === parseInt(req.params.pid));
-          if (product) {
-              res.status(200).send(product);
-          } else {
-              res.status(404).send({ mensaje: 'ERROR: No hay producto con ese id, no existe' });
-          }
-      } catch(err) {
-  
-          res.status(500).send(err);
+        const product = await productModel.findOne({ id: parseInt(req.params.pid) });
+        if (product) {
+          res.status(200).send(product);
+        } else {
+          res.status(404).send({ mensaje: 'ERROR: No hay producto con ese id, no existe' });
+        }
+      } catch (error) {
+        console.error(error);
+        res.status(500).send({ mensaje: 'Error al buscar el producto' });
       }
   });
   
   router.put('/api/products/:pid', async (req, res) => {
-    const products = await fs.promises.readFile(ArchivoProductos,'utf-8' );
-    const productsJson = await JSON.parse(products);
-  
-    const updatedProduct = productsJson.find(product => product.id === parseInt(req.params.pid));
-   
-    if (!updatedProduct) {
-      res.status(404).send({ mensaje: "No se encontró el producto" });
-    } else {
-      const updatedData = { ...updatedProduct, ...req.body };
-      const updatedProducts = productsJson.map(product => product.id === parseInt(req.params.pid) ? updatedData : product);
-      fs.writeFile(ArchivoProductos, JSON.stringify(updatedProducts, null, 2), (err) => {
-        if (err) {
-          console.error(err);
-          res.status(500).send({ mensaje: "Error al actualizar el archivo" });
-          return;
-        }
-        res.status(200).send({ mensaje: "Producto actualizado" });
-      });
+    try {
+      const updatedProduct = await productModel.findOneAndUpdate({ id: parseInt(req.params.pid) }, req.body, { new: true });
+      if (updatedProduct) {
+        res.status(200).send({ mensaje: 'Producto actualizado' });
+      } else {
+        res.status(404).send({ mensaje: 'ERROR: No hay producto con ese id, no se puede actualizar' });
+      }
+    } catch (error) {
+      console.error(error);
+      res.status(500).send({ mensaje: 'Error al actualizar el producto' });
     }
   });
-  
-  
   
   
   
   router.delete('/api/products/:pid', async (req, res) => {
   
-    const products = await fs.promises.readFile(ArchivoProductos,'utf-8' );
-    const productsJson = await JSON.parse(products);
-  
-    const borrarItem = productsJson.find(product =>product.id === parseInt(req.params.pid))
-  
-    if(!borrarItem){
-      res.status(404).send({mensaje:"No se encontro producto con ese ID"});
-      
+    try {
+      const deletedProduct = await productModel.findByIdAndDelete(req.params.pid);
+      if (deletedProduct) {
+        res.status(200).send({ mensaje: "Producto eliminado" });
+      } else {
+        res.status(404).send({ mensaje: "No se encontró el producto" });
+      }
+    } catch (error) {
+      console.error(error);
+      res.status(500).send({ mensaje: "Error al eliminar el producto" });
     }
-    const borrarItemConFilter = productsJson.filter(product =>product.id != parseInt(req.params.pid))
-    fs.writeFile(ArchivoProductos, JSON.stringify(borrarItemConFilter), error =>{
-      if(error) throw error;
-      res.status(404).send({mensaje:"El producto fue eliminado"});
-  
-      
-    })
-  
-  
-  })
+  });
   
   fs.readFile(ArchivoCarritos, 'utf-8', (err, data) => {
     if (!err) {
@@ -208,6 +196,7 @@ const router  = Router()
   return router;
   
 }
+
 
 
 
