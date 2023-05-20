@@ -4,12 +4,14 @@ import messagesModel from '../../dao/models/messages.model.js';
 async function renderChat(req, res) {
   try {
     const messages = await messagesModel.find().sort('-timestamp');
+    console.log('Mensajes obtenidos:', messages); // Verificar en la consola
     res.render('chat', { messages });
   } catch (error) {
     console.error(error);
     res.status(500).send('Error al obtener los mensajes');
   }
 }
+
 
 
 async function saveMessage(req, res) {

@@ -53,7 +53,7 @@ io.on('connection', (socket) => {
 try {
   
  // await mongoose.connect(MONGOOSE_URL)
- await  mongoose.connect('mongodb+srv://marycruz18:mccc15870040@cluster0.6ci8xpp.mongodb.net/ecommerce') 
+ await  mongoose.connect('mongodb+srv://marycruz18:mcoderdb@cluster0.6ci8xpp.mongodb.net/ecommerce') 
   server.listen(PORT, () => {
      
       console.log(`Servidor API/Socket.io iniciado en puerto ${PORT}`);

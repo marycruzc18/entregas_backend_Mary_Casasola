@@ -1,31 +1,27 @@
 <div class="container-fluid">
-    <div class="row">
-        <header class="bg-dark text-white p-3">
-        <h1>Bienvenidos al Ecommerce</h1> 
-         </header>
-    </div>
+  <div class="row">
+    <header class="bg-dark text-white p-3">
+      <h1>Bienvenidos al Ecommerce</h1> 
+    </header>
+  </div>
 </div>
-
 
 <body>
   <div class="container-fluid">
-  <div class="row">
-    <div class="col-12 m-t 3">
-       
-                <h1>Chat</h1>
-                <div id="messages">
-                {{#each messages}}
-                <p><strong>{{user}}</strong> {{message}}</p>
-                {{/each}}
-                </div>
-                <form id="message-form" action="/chat" method="POST">
-                    <input type="text" name="user" placeholder="Nombre de usuario" required>
-                    <input type="text" name="message" placeholder="Escribe un mensaje..." required>
-                    <button type="submit" class="btn btn-success">Enviar</button>
-                </form>
+    <div class="row">
+      <div class="col-12 m-t 3">
+        <h1>Chat</h1>
+        <div id="messages">
+          {{#each messages}}
+          <p><strong>{{this.user}}</strong> {{this.message}}</p>
+          {{/each}}
+        </div>
+        <form id="message-form" action="/chat" method="POST">
+          <input type="text" name="user" placeholder="Nombre de usuario" required>
+          <input type="text" name="message" placeholder="Escribe un mensaje..." required>
+          <button type="submit" class="btn btn-success">Enviar</button>
+        </form>
+      </div>
     </div>
-</div>
-
-</div>
-
+  </div>
 </body>
