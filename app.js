@@ -45,9 +45,12 @@ io.on('connection', (socket) => {
     console.log(`Producto agregado: ${JSON.stringify(product)}`);
     io.emit('product_added', product);
   });
-  socket.on('disconnect', () => {
-    console.log(`Cliente desconectado (${socket.id})`);
+
+  socket.on('chat message', (message) => {
+    console.log('Mensaje recibido:', message);
+    io.emit('chat message', message);
   });
+ 
 });
 
 try {
@@ -63,5 +66,5 @@ try {
 }
 
   
-
+export { io };
   

@@ -1,10 +1,9 @@
 import messagesModel from '../../dao/models/messages.model.js';
-
+import {io} from '../../app.js'
 
 async function renderChat(req, res) {
   try {
     const messages = await messagesModel.find().sort('-timestamp');
-    console.log('Mensajes obtenidos:', messages); // Verificar en la consola
     res.render('chat', { messages });
   } catch (error) {
     console.error(error);
@@ -12,15 +11,20 @@ async function renderChat(req, res) {
   }
 }
 
-
-
 async function saveMessage(req, res) {
   try {
-    const message = new messagesModel({
-      user: req.body.user,
-      message: req.body.message
+    const { user, message } = req.body;
+
+    // Guardar el mensaje en la base de datos
+    const newMessage = new messagesModel({
+      user,
+      message
     });
-    await message.save();
+    await newMessage.save();
+
+    // Emitir el mensaje a través de socket.io
+    io.emit('chat message', newMessage);
+
     res.status(201).send('Mensaje enviado correctamente');
   } catch (error) {
     console.error(error);
@@ -32,3 +36,4 @@ export default {
   renderChat,
   saveMessage
 };
+
